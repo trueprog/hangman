@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
@@ -36,9 +37,17 @@ public class Game extends Application {
 		StackPane root = new StackPane();
 		addBackground(root);
 	    addCanvas(root);
-	    addQA(root);
+	    BorderPane bp = new BorderPane();
+	    bp.setTop(createQA());
+	    bp.setBottom(createStartButton());
+	    root.getChildren().add(bp);
 		primaryStage.setScene(new Scene(root, bgImage.getWidth(), bgImage.getHeight()));
 		primaryStage.show();
+	}
+
+	private Node createStartButton() {
+		Button btn = new Button("Start");
+		return btn;
 	}
 
 	private void addCanvas(StackPane root) {
@@ -46,7 +55,7 @@ public class Game extends Application {
 	    root.getChildren().add(canvas);
 	}
 
-	private void addQA(StackPane root) {
+	private Node createQA() {
 		question = new Label("A question");
 	    question.setFont(Font.font("serif", FontWeight.BOLD, 20));
 	    answer = new TextField();
@@ -54,7 +63,7 @@ public class Game extends Application {
 	    vbox.setPadding(new Insets(10));
 	    vbox.setSpacing(8);
 	    vbox.getChildren().addAll(question, answer);
-		root.getChildren().add(vbox);
+		return(vbox);
 	}
 
 	private void addBackground(StackPane root) {
