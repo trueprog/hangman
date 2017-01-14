@@ -20,7 +20,7 @@ public class Game extends Application {
 	public void start(Stage primaryStage) {
 		primaryStage.setTitle("Hangman");
 		StackPane root = new StackPane();
-		addBackground(root);
+		Image bgImage = addBackground(root);
 		
 		
 		Button btn = new Button();
@@ -38,11 +38,12 @@ public class Game extends Application {
 		primaryStage.show();
 	}
 
-	private void addBackground(StackPane root) {
+	private Image addBackground(StackPane root) {
 		Image bgImage = new Image("./jungle.jpg");
 		ImageView bgView = new ImageView();
 		bgView.setImage(bgImage);
 		root.getChildren().add(bgView);
+		return bgImage;
 	}
 
 }
