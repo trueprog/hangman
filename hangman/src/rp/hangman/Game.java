@@ -29,9 +29,9 @@ import javafx.stage.Stage;
 public class Game extends Application {
 
 	private Image bgImage;
-	private Label question;
-	private TextField answer;
-	private Label status;
+	private Label questionLabel;
+	private TextField answerLabel;
+	private Label statusLabel;
 	private ImageView hangman;
 	private Image[] pic = new Image[7];
 	
@@ -39,7 +39,7 @@ public class Game extends Application {
 	private List<String> questions = new ArrayList<>();
 	private List<String> answers = new ArrayList<>();
 	private int correct = 0;
-	private int q = 0;
+	private int question = 0;
 	private Label correctLabel;
 	private Label wrongLabel;
 
@@ -96,21 +96,21 @@ public class Game extends Application {
 	}
 
 	private Node createQA() {
-		question = new Label(questions.get(0));
-	    question.setFont(Font.font("serif", FontWeight.BOLD, 20));
-	    answer = new TextField();
-	    answer.setOnAction((ActionEvent e) -> { this.processAnswer(); });
+		questionLabel = new Label(questions.get(0));
+	    questionLabel.setFont(Font.font("serif", FontWeight.BOLD, 20));
+	    answerLabel = new TextField();
+	    answerLabel.setOnAction((ActionEvent e) -> { this.processAnswer(); });
 	    VBox vbox = new VBox();
 	    vbox.setPadding(new Insets(10));
 	    vbox.setSpacing(8);
-	    vbox.getChildren().addAll(question, answer);
+	    vbox.getChildren().addAll(questionLabel, answerLabel);
 		return(vbox);
 	}
 
 	private Node createStatus() {
-		status = new Label("");
-		status.setFont(Font.font("serif", FontWeight.BOLD, 20));
-		status.setMaxWidth(Double.MAX_VALUE);
+		statusLabel = new Label("");
+		statusLabel.setFont(Font.font("serif", FontWeight.BOLD, 20));
+		statusLabel.setMaxWidth(Double.MAX_VALUE);
 		correctLabel = new Label("Correct: 0");
 		correctLabel.setFont(Font.font("serif", FontWeight.BOLD, 20));
 		correctLabel.setMaxWidth(Double.MAX_VALUE);
@@ -118,8 +118,8 @@ public class Game extends Application {
 		wrongLabel.setFont(Font.font("serif", FontWeight.BOLD, 20));
 		wrongLabel.setMaxWidth(Double.MAX_VALUE);
 		HBox hBox = new HBox();
-		hBox.getChildren().addAll(status, correctLabel, wrongLabel);
-		HBox.setHgrow(status, Priority.ALWAYS);
+		hBox.getChildren().addAll(statusLabel, correctLabel, wrongLabel);
+		HBox.setHgrow(statusLabel, Priority.ALWAYS);
 		HBox.setHgrow(correctLabel, Priority.ALWAYS);
 		HBox.setHgrow(wrongLabel, Priority.ALWAYS);
 		return hBox;
@@ -133,19 +133,19 @@ public class Game extends Application {
 	}
 
 	private void processAnswer() {
-		if (answer.getText().equalsIgnoreCase(answers.get(q))) {
-			status.setText("Correct!");
+		if (answerLabel.getText().equalsIgnoreCase(answers.get(question))) {
+			statusLabel.setText("Correct!");
 			correct++;
 			correctLabel.setText("Correct: " + correct);
 		} else {
-			status.setText("Your answer was wrong!");
+			statusLabel.setText("Your answer was wrong!");
 			wrong++;
 			wrongLabel.setText("Wrong: " + wrong);
 			hangman.setImage(pic[wrong]);
 		}
-		answer.setText("");
-		q++;
-		question.setText(questions.get(q));
+		answerLabel.setText("");
+		question++;
+		questionLabel.setText(questions.get(question));
 	}
 
 }
