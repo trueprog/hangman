@@ -1,8 +1,15 @@
 package rp.hangman;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import javafx.application.Application;
 import javafx.geometry.Insets;
-import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -24,7 +31,10 @@ public class Game extends Application {
 	private TextField answer;
 	private ImageView hangman;
 	private Image[] pic = new Image[7];
+	
 	private int level;
+	private List<String> questions = new ArrayList<>();
+	private List<String> answers = new ArrayList<>();
 
 	public static void main(String[] args) {
         launch(args);
@@ -32,6 +42,7 @@ public class Game extends Application {
 
 	@Override
 	public void start(Stage primaryStage) {
+		loadQuestions();
 		loadPictures();
 		level = 0;
 		primaryStage.setTitle("Hangman");
@@ -44,6 +55,21 @@ public class Game extends Application {
 	    root.getChildren().add(bp);
 		primaryStage.setScene(new Scene(root, bgImage.getWidth(), bgImage.getHeight()));
 		primaryStage.show();
+	}
+
+	private void loadQuestions() {
+		InputStream is = this.getClass().getResourceAsStream("/questions.txt");
+		BufferedReader br = new BufferedReader(new InputStreamReader(is));
+		Iterator<String> lines = br.lines().iterator();
+		while (lines.hasNext()) {
+			questions.add(lines.next());
+			answers.add(lines.next());
+		}
+		try {
+			br.close();
+		} catch (IOException e) {
+			// ignore failed close
+		}
 	}
 
 	private void loadPictures() {

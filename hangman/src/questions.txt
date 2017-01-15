@@ -1,0 +1,12 @@
+What is 7 in binary?
+111
+What is 5^3?
+6
+What is the extensions for Java source code files?
+.java
+What is 1 + 1 in binary?
+10
+What is the name of the component in a computer that executes code?
+CPU
+What is the air-speed velocity of an unladen swallow?
+African or European?
