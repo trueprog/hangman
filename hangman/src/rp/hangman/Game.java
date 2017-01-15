@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import javafx.application.Application;
+import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -32,9 +33,12 @@ public class Game extends Application {
 	private ImageView hangman;
 	private Image[] pic = new Image[7];
 	
-	private int level;
+	private int life;
 	private List<String> questions = new ArrayList<>();
 	private List<String> answers = new ArrayList<>();
+	private Label status;
+	private int correct = 0;
+	private int q = 0;
 
 	public static void main(String[] args) {
         launch(args);
@@ -44,14 +48,14 @@ public class Game extends Application {
 	public void start(Stage primaryStage) {
 		loadQuestions();
 		loadPictures();
-		level = 0;
+		life = 0;
 		primaryStage.setTitle("Hangman");
 		StackPane root = new StackPane();
 		addBackground(root);
 	    addHangman(root);
 	    BorderPane bp = new BorderPane();
 	    bp.setTop(createQA());
-	    bp.setBottom(createStartButton());
+	    bp.setBottom(createStatus());
 	    root.getChildren().add(bp);
 		primaryStage.setScene(new Scene(root, bgImage.getWidth(), bgImage.getHeight()));
 		primaryStage.show();
@@ -78,25 +82,21 @@ public class Game extends Application {
 		}
 	}
 
-	private Node createStartButton() {
-		Button btn = new Button("Start");
-		return btn;
-	}
-
 	private void addHangman(StackPane root) {
 		hangman = new ImageView();
 		hangman.setFitWidth(100);
 		hangman.setPreserveRatio(true);
 		hangman.setSmooth(true);
 		hangman.setCache(true);
-		hangman.setImage(pic[level]);
+		hangman.setImage(pic[life]);
 	    root.getChildren().add(hangman);
 	}
 
 	private Node createQA() {
-		question = new Label("A question");
+		question = new Label(questions.get(0));
 	    question.setFont(Font.font("serif", FontWeight.BOLD, 20));
 	    answer = new TextField();
+	    answer.setOnAction((ActionEvent e) -> { this.processAnswer(); });
 	    VBox vbox = new VBox();
 	    vbox.setPadding(new Insets(10));
 	    vbox.setSpacing(8);
@@ -104,11 +104,30 @@ public class Game extends Application {
 		return(vbox);
 	}
 
+	private Node createStatus() {
+		status = new Label("");
+		status.setFont(Font.font("serif", FontWeight.BOLD, 20));
+		return status;
+	}
+
 	private void addBackground(StackPane root) {
 		bgImage = new Image("/jungle.jpg");
 		ImageView bgView = new ImageView();
 		bgView.setImage(bgImage);
 		root.getChildren().add(bgView);
+	}
+
+	private void processAnswer() {
+		if (answer.getText().equalsIgnoreCase(answers.get(life))) {
+			status.setText("Correct!");
+			correct++;
+		} else {
+			status.setText("Your answer was wrong!");
+			life++;
+			hangman.setImage(pic[life]);
+		}
+		q++;
+		question.setText(questions.get(q));
 	}
 
 }
