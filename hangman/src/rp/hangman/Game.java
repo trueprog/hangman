@@ -133,7 +133,7 @@ public class Game extends Application {
 	}
 
 	private void processAnswer() {
-		if (answer.getText().equalsIgnoreCase(answers.get(wrong))) {
+		if (answer.getText().equalsIgnoreCase(answers.get(q))) {
 			status.setText("Correct!");
 			correct++;
 			correctLabel.setText("Correct: " + correct);
@@ -143,6 +143,7 @@ public class Game extends Application {
 			wrongLabel.setText("Wrong: " + wrong);
 			hangman.setImage(pic[wrong]);
 		}
+		answer.setText("");
 		q++;
 		question.setText(questions.get(q));
 	}
