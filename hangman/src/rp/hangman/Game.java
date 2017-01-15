@@ -13,12 +13,13 @@ import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -30,15 +31,17 @@ public class Game extends Application {
 	private Image bgImage;
 	private Label question;
 	private TextField answer;
+	private Label status;
 	private ImageView hangman;
 	private Image[] pic = new Image[7];
 	
-	private int life;
+	private int wrong;
 	private List<String> questions = new ArrayList<>();
 	private List<String> answers = new ArrayList<>();
-	private Label status;
 	private int correct = 0;
 	private int q = 0;
+	private Label correctLabel;
+	private Label wrongLabel;
 
 	public static void main(String[] args) {
         launch(args);
@@ -48,7 +51,7 @@ public class Game extends Application {
 	public void start(Stage primaryStage) {
 		loadQuestions();
 		loadPictures();
-		life = 0;
+		wrong = 0;
 		primaryStage.setTitle("Hangman");
 		StackPane root = new StackPane();
 		addBackground(root);
@@ -88,7 +91,7 @@ public class Game extends Application {
 		hangman.setPreserveRatio(true);
 		hangman.setSmooth(true);
 		hangman.setCache(true);
-		hangman.setImage(pic[life]);
+		hangman.setImage(pic[wrong]);
 	    root.getChildren().add(hangman);
 	}
 
@@ -107,7 +110,19 @@ public class Game extends Application {
 	private Node createStatus() {
 		status = new Label("");
 		status.setFont(Font.font("serif", FontWeight.BOLD, 20));
-		return status;
+		status.setMaxWidth(Double.MAX_VALUE);
+		correctLabel = new Label("Correct: 0");
+		correctLabel.setFont(Font.font("serif", FontWeight.BOLD, 20));
+		correctLabel.setMaxWidth(Double.MAX_VALUE);
+		wrongLabel = new Label("Wrong: 0");
+		wrongLabel.setFont(Font.font("serif", FontWeight.BOLD, 20));
+		wrongLabel.setMaxWidth(Double.MAX_VALUE);
+		HBox hBox = new HBox();
+		hBox.getChildren().addAll(status, correctLabel, wrongLabel);
+		HBox.setHgrow(status, Priority.ALWAYS);
+		HBox.setHgrow(correctLabel, Priority.ALWAYS);
+		HBox.setHgrow(wrongLabel, Priority.ALWAYS);
+		return hBox;
 	}
 
 	private void addBackground(StackPane root) {
@@ -118,13 +133,15 @@ public class Game extends Application {
 	}
 
 	private void processAnswer() {
-		if (answer.getText().equalsIgnoreCase(answers.get(life))) {
+		if (answer.getText().equalsIgnoreCase(answers.get(wrong))) {
 			status.setText("Correct!");
 			correct++;
+			correctLabel.setText("Correct: " + correct);
 		} else {
 			status.setText("Your answer was wrong!");
-			life++;
-			hangman.setImage(pic[life]);
+			wrong++;
+			wrongLabel.setText("Wrong: " + wrong);
+			hangman.setImage(pic[wrong]);
 		}
 		q++;
 		question.setText(questions.get(q));
