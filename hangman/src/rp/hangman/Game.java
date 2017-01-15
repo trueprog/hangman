@@ -1,5 +1,7 @@
 package rp.hangman;
 
+import java.net.URL;
+
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -67,7 +69,7 @@ public class Game extends Application {
 	}
 
 	private void addBackground(StackPane root) {
-		bgImage = new Image("./jungle.jpg");
+		bgImage = new Image("/jungle.jpg");
 		ImageView bgView = new ImageView();
 		bgView.setImage(bgImage);
 		root.getChildren().add(bgView);
