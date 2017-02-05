@@ -165,6 +165,10 @@ public class Game extends Application {
                 gameOver = true;
                 gameLost();
             }
+            if (question == questions.size() - 1) {
+                gameOver = true;
+                gameWon();
+            }
         }
         answerField.setText("");
         if (gameOver) {
