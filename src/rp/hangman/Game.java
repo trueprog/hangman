@@ -32,6 +32,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import javafx.scene.control.Button;
 
 public class Game extends Application {
 
@@ -42,6 +43,7 @@ public class Game extends Application {
     private Label statusLabel;
     private ImageView hangman;
     private Image[] pic = new Image[4];
+    private Button exitbtn;
 
     private int wrong;
     private List<String> questions = new ArrayList<>();
